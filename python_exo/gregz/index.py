@@ -47,6 +47,7 @@
 
 from flask import Flask
 from flask import render_template
+from flask import request
 
 app = Flask(__name__)
 
@@ -54,6 +55,18 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     return render_template("hello.html")
+
+
+@app.route("/scan", methods=["POST"])
+def scan_form():
+    ip = request.form.get("ip")
+    port = request.form.get("port")
+
+    print(f"IP: {ip}, Port: {port}")
+
+    scan()
+
+    return "reçu"
 
 
 if __name__ == "__main__":

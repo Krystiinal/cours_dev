@@ -1,2 +1,27 @@
 <!doctype html>
-<title>Hello from Flask</title>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de connexion</title>
+</head>
+
+<body>
+    <h1>Connexion au serveur</h1>
+    <form method="POST" action="/scan">
+        <div>
+            <label for="ip">Adresse IP :</label>
+            <input type="text" id="ip" name="ip" placeholder="192.168.1.1" required>
+        </div>
+        <div>
+            <label for="port">Port :</label>
+            <input type="number" id="port" name="port" placeholder="8080" required>
+        </div>
+        <div>
+            <button type="submit">Envoyer</button>
+        </div>
+    </form>
+</body>
+
+</html>
