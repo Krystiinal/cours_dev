@@ -1,0 +1,79 @@
+# step 1 :
+
+# faire en sorte que la route / renvoie désormais une page html qui affiche simplement "hello world" en dur.
+
+# documentation ici : https://flask.palletsprojects.com/en/stable/quickstart/#rendering-templates
+
+# step 2 :
+
+# modifier cette page html pour rajouter
+# un titre "port scanner"
+# un simple formulaire
+# un champ pour l'adresse IP
+# un champ pour le port
+# un bouton pour envoyer le formulaire
+
+# aucun check n'est demandé à cette étape dans le formulaire (cest a dire que si vous mettez abc dans le port cela ne posera pas de soucis)
+
+# pour linstant ce formulaire ne fait rien
+
+# step 3 :
+
+# rajouter une nouvelle route dans l'application /scan de type POST qui devra recevoir les données du formulaire et simplement print les données recues
+
+# nommer la fonction liée à cette route scan_form(...)
+
+# step 4 :
+
+# modifier le formulaire pour qu'il envoie les données à la route /scan
+
+# verifier que vous voyez bien les données printées dans votre terminal
+
+# step 5 :
+
+# modifier la route /scan pour que désormais elle appelle la fonction scan codée précedemment (la fonction qui ouvre le socket etc)
+
+# step 6 :
+
+# modifier la route /scan pour qu'elle redirige l'utilisateur vers une nouvelle page /result avec dans cette page les données du scan.
+
+# par exemple si je scan un service ssh, je veux dans cette page html voir : IP + port + résultat (opensshd 22.3)
+
+# OPTIONNEL
+
+# rajouter une validation des données egalement dans le frontend (donc dans le formulaire, empecher l'utilisateur de renseigner un port invalide ou une IP invalide)
+
+# rajouter du css pour faire joli
+
+from flask import Flask
+from flask import render_template
+from flask import request
+from scan import scan
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def hello_world():
+    return render_template("hello.html")
+
+
+## Methode plus récente par rapport à .route :
+# @app.get('/')
+# def step1_page():
+#   return render_template('index_step1.html')
+
+
+@app.route("/result", methods=["POST"])
+def scan_form():
+    ip = request.form.get("ip")
+    port = request.form.get("port")
+
+    print(f"IP : {ip}, Port : {port}")
+
+    result = scan(ip, int(port))
+    return render_template("result.html", ip=ip, port=port, result=result)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

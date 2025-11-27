@@ -9,8 +9,10 @@ def scan(ip_target, port_target):
             s.settimeout(3)
             s.connect((ip_target, port_target))
             print("OK")
+            return "Port ouvert"
         except (TimeoutError, ConnectionRefusedError) as e:
             print(e)
+            return f"Port fermé ou erreur: {e}"
 
 
 def validate_port(port):

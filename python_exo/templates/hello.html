@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='hello.css') }}">
+    <title>scan</title>
+</head>
+
+<body>
+    <h1>Connexion au serveur</h1>
+
+    <form method="POST" action="/result">
+        <div class="row">
+            <label for="ip">Adress IP :</label>
+            <input type="text" name="ip" id="ip" placeholder="192.168.1.1" required>
+        </div>
+        <div class="row">
+            <label for="port">Port :</label>
+            <input type="text" name="port" id="port" placeholder="8080" required>
+        </div>
+        <div>
+            <button type="submit">Envoyer</button>
+        </div>
+    </form>
+</body>
+
+</html>

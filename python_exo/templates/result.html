@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+    <title>Résultat du scan</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Résultat du scan</h1>
+
+        <div class="result-card">
+            <div class="result-row">
+                <span class="label">Adresse IP :</span>
+                <span class="value">{{ ip }}</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Port :</span>
+                <span class="value">{{ port }}</span>
+            </div>
+            <div class="result-row">
+                <span class="label">Résultat :</span>
+                <span class="value result-data">{{ result }}</span>
+            </div>
+        </div>
+
+        <a href="/" class="back-button">Nouveau scan</a>
+    </div>
+</body>
+
+</html>
