@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from src.db import USERS
+from src.services.users import add_user, get_user, user_exists
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -17,12 +17,12 @@ def post_register():
     username = form.get("username")
     password = form.get("password")
 
-    if username in USERS:
+    if user_exists(username):
         print("User already exist")
         return redirect(url_for("auth.register_page"))
 
     secure_password = generate_password_hash(password)
-    USERS[username] = secure_password
+    add_user(username, secure_password)
     return redirect(url_for("auth.login_page"))
 
 
@@ -35,13 +35,15 @@ def login_page():
 def post_login():
     form = request.form.to_dict()
     username = form.get("username")
+    user = get_user(username)
     password = form.get("password")
 
-    if username not in USERS:
-        return redirect(url_for("auth.login_form"))
+    if user is None:
+        return redirect(url_for("auth.login_page"))
 
-    secure_password = USERS[username]
+    secure_password = user["password"]
     if check_password_hash(secure_password, password):
+        session["username"] = username
         return redirect(url_for("forms.home"))
     else:
-        return redirect(url_for("auth.login_form"))
+        return redirect(url_for("auth.login_page"))

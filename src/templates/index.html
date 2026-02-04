@@ -6,6 +6,15 @@
     <title>Port Scanner</title>
   </head>
   <body>
+    <header>
+      {% if session.username %}
+        <p>Connecté en tant que <strong>{{ session.username }}</strong></p>
+      {% else %}
+        <a href="{{ url_for('auth.login_page') }}">Se connecter</a>
+        |
+        <a href="{{ url_for('auth.register_page') }}">S'inscrire</a>
+      {% endif %}
+    </header>
     <div>
       <h1>Port Scanner</h1>
       <form method="post" action="/scan" novalidate>
