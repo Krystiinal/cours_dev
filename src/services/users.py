@@ -1,38 +1,26 @@
 from src.db import get_connection
 
 
+def user_exists(username):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM users WHERE username = ?", (username,))
+        result = cursor.fetchone()
+        return result is not None
+
+
 def add_user(username, password):
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO users (username, password) VALUES (?, ?)",
-            (username, password)
+            "INSERT INTO users (username, password) VALUES (?, ?)", (username, password)
         )
         conn.commit()
 
 
-def get_user(username):
+def get_user_password(username):
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT id, username, password FROM users WHERE username = ?",
-            (username,)
-        )
+        cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
         result = cursor.fetchone()
-        if result:
-            return {
-                "id": result[0],
-                "username": result[1],
-                "password": result[2]
-            }
-        return None
-
-
-def user_exists(username):
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT 1 FROM users WHERE username = ?",
-            (username,)
-        )
-        return cursor.fetchone() is not None
+        return result[0] if result else None

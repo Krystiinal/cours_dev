@@ -3,3 +3,4 @@ venv/
 .env
 __pycache__/
 *.sqlite
+factory_pattern.md
